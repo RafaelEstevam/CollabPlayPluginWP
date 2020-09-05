@@ -1,0 +1,54 @@
+version: '3.3'
+
+services:
+
+    wordpress:
+        build: .
+        image: wordpress
+        restart: always
+        container_name: my-wordpress
+        ports:
+            - 8080:80
+        environment:
+            WORDPRESS_DB_HOST: db
+            WORDPRESS_DB_USER: wpuser
+            WORDPRESS_DB_PASSWORD: wppass
+            WORDPRESS_DB_NAME: wpdb
+        volumes:
+            - wp_uploads:/var/www/html/wp-content/uploads
+            - wp_themes:/var/www/html/wp-content/themes
+            - wp_plugins:/var/www/html/wp-content/plugins
+            - ./src/:/var/www/html/wp-content/plugins/my-youtube-recommendation
+            - ./info.php/:/var/www/html/info.php
+            - ./.htaccess:/var/www/html/.htaccess
+
+    db:
+        image: mysql:5.7
+        restart: always
+        container_name: my-db
+        environment:
+            MYSQL_DATABASE: wpdb
+            MYSQL_USER: wpuser
+            MYSQL_PASSWORD: wppass
+            MYSQL_RANDOM_ROOT_PASSWORD: '1'
+        volumes:
+            - db:/var/lib/mysql
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin:latest
+        container_name: my-phpmyadmin
+        links:
+            - db
+        ports:
+            - 8888:80
+        environment:
+            - PMA_ARBITRARY=1
+
+networks:
+    back:
+        
+volumes:
+    db:
+    wp_uploads:
+    wp_themes:
+    wp_plugins:
