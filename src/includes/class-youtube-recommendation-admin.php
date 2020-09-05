@@ -29,7 +29,7 @@ if(! class_exists('Youtube_recommendations_admin')){
         public function add_plugin_page(){
             add_options_page( // Criação de página nova dentro do ADMIN
                 __('Settings', 'my-youtube-recommendation'),
-                'My Youtube Recommendation',
+                __('My Youtube Recommendation' , 'my-youtube-recommendation'),
                 'manage_options', // Local onde aparece o menu
                 $this->plugin_slug, // Link da página
                 array($this, 'create_admin_page')
@@ -144,7 +144,7 @@ if(! class_exists('Youtube_recommendations_admin')){
 
             $value = isset( $this->options['cache_expiration'] ) ? esc_attr( $this->options['cache_expiration'] ) : '1';
             ?>
-                <input type="number" id="cache_expiration" min="1" name="my_yt_rec[cache_expiration]" value="<?php echo $value ?>" class="small-text" />
+                <input type="number" id="cache_expiration" name="my_yt_rec[cache_expiration]" value="<?php echo $value ?>" class="small-text" />
                 <?php echo __('hours is the expiration time for cached data' , 'my-youtube-recommendation') ?>.
                 <p class="description"><a href="<?php echo $json_url?>" target="_blank"><?php echo __('Test here' , 'my-youtube-recommendation') ?></a>.
             <?php

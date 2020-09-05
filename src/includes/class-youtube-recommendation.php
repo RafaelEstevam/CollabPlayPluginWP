@@ -29,7 +29,6 @@
 
             private function build_html_videos_list() {
 
-
                 $limit          = $this->options['limit'];
                 $layout         = $this->options['layout'];
                 $custom_css     = $this->options['custom_css'];

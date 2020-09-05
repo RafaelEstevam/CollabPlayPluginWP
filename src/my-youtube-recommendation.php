@@ -14,7 +14,7 @@
         * Author URI:        https://www.youtube.com/codigofontetv
         * License:           GPLv3 or later
         * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
-        * Text Domain:       my-youtube-recommendation
+        * Text Domain:       my-youtube-recommendation (Nome usado para o arquivo de tradução. Deve ser o mesmo nas chamadas da tradução para o WP identificar a tradução)
         * Domain Path:       /languages/
      */
 
@@ -32,7 +32,7 @@
 
     // Plugin Name
     if (!defined( 'MY_YOUTUBE_RECOMMENDATION_NAME')){
-        define( 'MY_YOUTUBE_RECOMMENDATION_NAME', 'My Youtube Recommendation' );
+        define( 'MY_YOUTUBE_RECOMMENDATION_NAME', __('My Youtube Recommendation', 'my-youtube-recommendation') );
     }
 
     // Plugin Slug
@@ -55,23 +55,17 @@
         define( 'MY_YOUTUBE_RECOMMENDATION_JSON_FILENAME', 'my-yt-rec.json' );
     }
 
+    load_plugin_textdomain( // Carrega a tradução do plugin de acordo com o slug e o diretório definido
+        MY_YOUTUBE_RECOMMENDATION_PLUGIN_SLUG,
+        false, // parâmetro depreciado
+        MY_YOUTUBE_RECOMMENDATION_PLUGIN_SLUG . '/languages/'
+    );
+
     // Dependencies
     require_once MY_YOUTUBE_RECOMMENDATION_PLUGIN_DIR . 'includes/class-youtube-recommendation.php';
     require_once MY_YOUTUBE_RECOMMENDATION_PLUGIN_DIR . 'includes/class-youtube-recommendation-json.php';
     require_once MY_YOUTUBE_RECOMMENDATION_PLUGIN_DIR . 'includes/class-youtube-recommendation-widget.php';
     require_once MY_YOUTUBE_RECOMMENDATION_PLUGIN_DIR . 'includes/class-youtube-recommendation-shortcode.php';
-    
-    if(is_admin()){
-        
-        require_once MY_YOUTUBE_RECOMMENDATION_PLUGIN_DIR . 'includes/class-youtube-recommendation-admin.php';
-
-        $yt_rec_admin = new Youtube_recommendations_admin(
-            MY_YOUTUBE_RECOMMENDATION_BASENAME,
-            MY_YOUTUBE_RECOMMENDATION_PLUGIN_SLUG,
-            MY_YOUTUBE_RECOMMENDATION_JSON_FILENAME,
-            MY_YOUTUBE_RECOMMENDATION_VERSION
-        );
-    }
 
     $my_youtube_recomendation = new Youtube_Recommendation();
     $channel_id = $my_youtube_recomendation->options['channel_id'];
@@ -84,6 +78,21 @@
             $expiration,
             MY_YOUTUBE_RECOMMENDATION_PLUGIN_SLUG,
             MY_YOUTUBE_RECOMMENDATION_JSON_FILENAME
+        );
+
+        $my_youtube_recommendation_shortcode = new Youtube_Recommendation_Shortcode();
+        $my_youtube_recommendation_widget = new Youtube_Recommendation_Widget();
+    }
+    
+    if(is_admin()){
+        
+        require_once MY_YOUTUBE_RECOMMENDATION_PLUGIN_DIR . 'includes/class-youtube-recommendation-admin.php';
+
+        $yt_rec_admin = new Youtube_recommendations_admin(
+            MY_YOUTUBE_RECOMMENDATION_BASENAME,
+            MY_YOUTUBE_RECOMMENDATION_PLUGIN_SLUG,
+            MY_YOUTUBE_RECOMMENDATION_JSON_FILENAME,
+            MY_YOUTUBE_RECOMMENDATION_VERSION
         );
     }
     
