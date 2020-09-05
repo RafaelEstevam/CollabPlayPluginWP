@@ -62,7 +62,9 @@
     require_once MY_YOUTUBE_RECOMMENDATION_PLUGIN_DIR . 'includes/class-youtube-recommendation-shortcode.php';
     
     if(is_admin()){
+        
         require_once MY_YOUTUBE_RECOMMENDATION_PLUGIN_DIR . 'includes/class-youtube-recommendation-admin.php';
+
         $yt_rec_admin = new Youtube_recommendations_admin(
             MY_YOUTUBE_RECOMMENDATION_BASENAME,
             MY_YOUTUBE_RECOMMENDATION_PLUGIN_SLUG,
@@ -71,4 +73,17 @@
         );
     }
 
+    $my_youtube_recomendation = new Youtube_Recommendation();
+    $channel_id = $my_youtube_recomendation->options['channel_id'];
+
+    if($channel_id != ""){
+        //Se canal id estiver preenchido, instanciar classe que cria o arquivo JSON e habilita as requisições AJAX do plugin
+        $expiration = $my_youtube_recomendation->options['cache_expiration'];
+        $my_youtube_recommendation_Json = new Youtube_recommendation_json(
+            $channel_id,
+            $expiration,
+            MY_YOUTUBE_RECOMMENDATION_PLUGIN_SLUG,
+            MY_YOUTUBE_RECOMMENDATION_JSON_FILENAME
+        );
+    }
     

@@ -32,11 +32,9 @@
                 
 
                 if($this->is_expired()){
-                    echo 'YOUTUBE';
                     $json_content = $this->from_youtube_feed();
                     $this->save_file($json_content);
                 }else{
-                    echo 'CACHE';
                     $json_content = $this->from_file();
                 }
 
