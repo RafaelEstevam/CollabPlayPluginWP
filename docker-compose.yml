@@ -19,6 +19,7 @@ services:
             - wp_themes:/var/www/html/wp-content/themes
             - wp_plugins:/var/www/html/wp-content/plugins
             - ./src/:/var/www/html/wp-content/plugins/my-youtube-recommendation
+            - ./term-search-result/:/var/www/html/wp-content/plugins/term-search-result
             - ./info.php/:/var/www/html/info.php
             - ./.htaccess:/var/www/html/.htaccess
 
